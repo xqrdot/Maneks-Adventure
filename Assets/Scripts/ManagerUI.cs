@@ -24,6 +24,9 @@ public class ManagerUI : MonoBehaviour
 	[SerializeField] TextMeshProUGUI promptInteractionButton = null;
 	[SerializeField] TextMeshProUGUI promptInteractionAction = null;
 
+	[Header("Game info")]
+	[SerializeField] TextMeshProUGUI gameTime = null;
+
 	[Header("Scene Intro Initializer")]
 	public bool showSceneIntro = true;
 	[SerializeField] TextMeshProUGUI groupSceneIntro_Name = null;
@@ -42,6 +45,7 @@ public class ManagerUI : MonoBehaviour
 	{
 		player = StaticStorage.instance.Player;
 		player.GetComponent<PlayerController>().changeHealth += UpdateHearts;
+		StaticStorage.instance.changeGameTime += UpdateGameTime;
 
 		InitializeHearts();
 	}
@@ -76,6 +80,11 @@ public class ManagerUI : MonoBehaviour
 
 			Instantiate(img, groupHealth.transform);
 		}
+	}
+
+	void UpdateGameTime(float time) 
+	{
+		gameTime.SetText(time.ToString());
 	}
 
 	public void UpdateHearts(int currentHealth)

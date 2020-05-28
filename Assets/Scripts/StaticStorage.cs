@@ -1,16 +1,27 @@
 ﻿#pragma warning disable 0649
 using UnityEngine;
+using System.Collections;
 
 public class StaticStorage : MonoBehaviour
 {
 	public bool PlayerCanInput { get; set; } = true;
 
+
+	public GameState gameState;
+
+	[Space(20)]
 	public GameObject player;
 	public GameObject gameManager;
-	public float teleportMaxCooldown;
-	public float teleportCurrentCooldown;
 
+	[HideInInspector] public float gameTime = 0;
+	[HideInInspector] public float gameScore = 0;
+	[HideInInspector] public float teleportMaxCooldown;
+	[HideInInspector] public float teleportCurrentCooldown;
+	
 	public static StaticStorage instance;
+
+	public delegate void OnChangeGameTime(float time); public OnChangeGameTime changeGameTime;
+
 
 	private void Awake()
 	{
@@ -19,6 +30,10 @@ public class StaticStorage : MonoBehaviour
 
 		else if (instance != this)
 			Destroy(gameObject);
+	}
+
+	private void Start() {
+		StartCoroutine(CountGameTime());
 	}
 
 	public GameObject Player
@@ -41,4 +56,18 @@ public class StaticStorage : MonoBehaviour
 			return gameManager;
 		}
 	}
+
+	IEnumerator CountGameTime()
+  {
+		var increment = 0.2f;
+		while (gameState != GameState.Ended)
+		{
+			yield return new WaitForSeconds(increment);
+			gameTime += increment;
+			
+			changeGameTime?.Invoke(float.Parse(string.Format("{0:00.00}", gameTime)));
+		}
+
+    yield return null;
+  }
 }
