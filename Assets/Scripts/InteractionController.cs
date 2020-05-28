@@ -192,14 +192,19 @@ public class InteractionController : MonoBehaviour
     bool didHit = false;
 
     var facingRight = player.GetComponent<PlayerController>().m_FacingRight == true ? 1 : -1;
-    var overlapArea = Physics2D.OverlapAreaAll(transform.position, new Vector2(transform.position.x + meleeRange * facingRight, transform.position.y));
+    Vector2 direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position);
+    direction.Normalize();
+    // TODO: do a BOX2d overlay since that accounts for player missing a bit
+    // var overlapArea = Physics2D.OverlapAreaAll(transform.position, new Vector2(transform.position.x + meleeRange * facingRight, transform.position.y))
+    print(direction);
+    var overlapArea = Physics2D.RaycastAll(transform.position, direction, meleeRange);
 
     //if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-    foreach (Collider2D collider2D in overlapArea)
+    foreach (RaycastHit2D obj in overlapArea)
     {
-      if (collider2D.GetComponent<IDamageable>() != null && !collider2D.CompareTag("Player"))
+      if (obj.transform.GetComponent<IDamageable>() != null && !obj.transform.CompareTag("Player"))
       {
-        collider2D.GetComponent<IDamageable>().DealDamage((int)meleeDamage);
+        obj.transform.GetComponent<IDamageable>().DealDamage((int)meleeDamage);
         didHit = true;
       }
     }
