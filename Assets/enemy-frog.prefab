@@ -16,6 +16,7 @@ GameObject:
   - component: {fileID: 5086882032778053148}
   - component: {fileID: 5086882032778053139}
   - component: {fileID: 2007967054}
+  - component: {fileID: 496332148}
   m_Layer: 8
   m_Name: enemy-frog
   m_TagString: Enemy
@@ -120,6 +121,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyStats: {fileID: 11400000, guid: a046d599fb8983447bf3c1d8fe8b8091, type: 2}
+  m_MovementSmoothing: 0.05
   bounceForce: 755
 --- !u!50 &5086882032778053149
 Rigidbody2D:
@@ -155,7 +157,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.27874613}
+  m_Offset: {x: 0.00000023841858, y: -0.26840186}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -166,7 +168,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.547579, y: 1.4425077}
+  m_Size: {x: 1.2475214, y: 1.4218192}
   m_EdgeRadius: 0
 --- !u!61 &5086882032778053139
 BoxCollider2D:
@@ -290,3 +292,19 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!58 &496332148
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5086882032778053138}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.9827289}
+  serializedVersion: 2
+  m_Radius: 0.017371118
