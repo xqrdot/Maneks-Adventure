@@ -59,13 +59,13 @@ public class StaticStorage : MonoBehaviour
 
 	IEnumerator CountGameTime()
   {
-		var increment = 0.2f;
+		var increment = 1f;
 		while (gameState != GameState.Ended)
 		{
 			yield return new WaitForSeconds(increment);
 			gameTime += increment;
 			
-			changeGameTime?.Invoke(float.Parse(string.Format("{0:00.00}", gameTime)));
+			changeGameTime?.Invoke((int)gameTime);
 		}
 
     yield return null;
