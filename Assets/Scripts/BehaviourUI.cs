@@ -8,7 +8,7 @@ public class BehaviourUI : MonoBehaviour
 
 	TextMeshProUGUI textMesh;
 
-	private void Start()
+	private void Awake()
 	{
 		textMesh = GetComponent<TextMeshProUGUI>();
 	}

@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: df5eaf989bac3424cb54a823d213fcc7, type: 3}
   m_Name: Level Main
   m_EditorClassIdentifier: 
-  nameStr: Caustic Catacombs
-  chapter: Chapter 1:2
-  objective: Get to the next door
-  scene: {fileID: 102900000, guid: 98e274de2f3c921468173d12e518bd3b, type: 3}
+  nameStr: "\u041B\u0430\u0431\u043E\u0440\u0430\u0442\u043E\u0440\u043D\u0430\u044F
+    \u043A\u0440\u044B\u0441\u0430"
+  chapter: "\u0413\u043B\u0430\u0432\u0430 III"
+  objective: ' '

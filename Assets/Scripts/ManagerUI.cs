@@ -126,15 +126,20 @@ public class ManagerUI : MonoBehaviour
 			promptInteractionGroup.LeanScaleX(0, 0.01f);
 	}
 
-	public void InitializeSceneIntro(Level passedLevel)
+	public void InitializeSceneIntro(Level passedLevel) {
+		StartCoroutine(InitializeSceneIntro_Coroutine(passedLevel));
+	}
+
+	public IEnumerator InitializeSceneIntro_Coroutine(Level passedLevel)
 	{
+		yield return new WaitForSeconds(0.5f);
 		var _Name = groupSceneIntro_Name;
 		var _Chapter = groupSceneIntro_Chapter;
 		var _Objective = groupSceneIntro_Objective;
 
-		_Name.		SetText(passedLevel.nameStr);
-		_Chapter.	SetText(passedLevel.chapter);
-		_Objective.	SetText(passedLevel.objective);
+		_Name.SetText(passedLevel.nameStr);
+		_Chapter.SetText(passedLevel.chapter);
+		_Objective.SetText(passedLevel.objective);
 
 		if (showSceneIntro)
 			_Name.transform.parent.localScale = Vector3.one;
@@ -147,30 +152,31 @@ public class ManagerUI : MonoBehaviour
 			_Objective
 		};
 
-		//for (int i = 0; i < textMeshes.Count; i++)
-		//{
-		//	var textMesh = textMeshes[i];
+		for (int i = 0; i < textMeshes.Count; i++)
+		{
+			var textMesh = textMeshes[i];
 
-		//	if (textMesh.gameObject.GetComponent<BehaviourUI>() == null)
-		//		textMesh.gameObject.AddComponent<BehaviourUI>();
-		//	var x = textMesh.gameObject.GetComponent<BehaviourUI>();
+			if (textMesh.gameObject.GetComponent<BehaviourUI>() == null)
+				textMesh.gameObject.AddComponent<BehaviourUI>();
+			var x = textMesh.gameObject.GetComponent<BehaviourUI>();
 
-		//	if (showSceneIntro)
-		//		x.FadeText();
-		//	else
-		//		x.FadeText(0, 0, 0, 0);
-		//}
+			if (showSceneIntro)
+				x.FadeText();
+			else
+				x.FadeText(0, 0, 0, 0);
+		}
 
-		//foreach (var textMesh in textMeshes)
-		//{
-		//	if (textMesh.gameObject.GetComponent<BehaviourUI>() == null)
-		//		textMesh.gameObject.AddComponent<BehaviourUI>();
-		//	var x = textMesh.gameObject.GetComponent<BehaviourUI>();
+		foreach (var textMesh in textMeshes)
+		{
+			if (textMesh.gameObject.GetComponent<BehaviourUI>() == null)
+				textMesh.gameObject.AddComponent<BehaviourUI>();
+			var x = textMesh.gameObject.GetComponent<BehaviourUI>();
 
-		//	if (showSceneIntro)
-		//		x.FadeText();
-		//	else
-		//		x.FadeText(0, 0, 0, 0);
-		//}
+			if (showSceneIntro)
+				x.FadeText();
+			else
+				x.FadeText(0, 0, 0, 0);
+		}
+		yield return null;
 	}
 }
