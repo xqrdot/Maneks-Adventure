@@ -13,6 +13,7 @@ public class TriggerArea : MonoBehaviour
   public bool requiresInput = true;
   public bool canBeActivated = true;
   public bool canBeDeactivated = true;
+  public bool m_canBeActivated, m_canBeDeactivated = false;
 
   [Header("SFX/GFX")]
   [SerializeField] AudioClip sfx_activation = null;
@@ -21,13 +22,18 @@ public class TriggerArea : MonoBehaviour
   [SerializeField] Sprite sprite_false;
                    Sprite sprite_default;
 
-
   AudioSource source;
+
+  private void Awake() {
+    if (canBeActivated) { m_canBeActivated = true; }
+  }
 
   private void Start()
   {
     source = StaticStorage.instance.GameManager.GetComponent<AudioSource>();
-    sprite_default = GetComponent<SpriteRenderer>().sprite;
+    if (GetComponent<SpriteRenderer>() != null) {
+			sprite_default = GetComponent<SpriteRenderer>().sprite;
+		}
   }
 
   private void OnTriggerEnter2D(Collider2D collision) {
@@ -45,35 +51,43 @@ public class TriggerArea : MonoBehaviour
 
   public void Activate()
   {
-    if (canBeActivated)
+    if (m_canBeActivated)
     {
       source.PlayOneShot(sfx_activation);
-      GetComponent<SpriteRenderer>().sprite = sprite_true;
-      GetComponent<SpriteRenderer>().material.SetFloat("_OutlineOffset", 0);
-
+      if (GetComponent<SpriteRenderer>() != null) 
+      {
+				GetComponent<SpriteRenderer>().sprite = sprite_true;
+				GetComponent<SpriteRenderer>().material.SetFloat("_OutlineOffset", 0);
+      }
 
       if (controlsDoor)
       {
         ManagerEvents.current.DoorwayTriggerEnter(id);
       }
 
-      // TODO: Implement a better solution
-      canBeActivated = false;
+      m_canBeActivated = false;
+      if (canBeDeactivated) { m_canBeDeactivated = true; }
     }
   }
 
 
   public void Deactivate()
   {
-    if (canBeDeactivated)
-    {
+    if (m_canBeDeactivated) {
       source.PlayOneShot(sfx_deactivation);
-      GetComponent<SpriteRenderer>().sprite = sprite_default;
+
+      if (GetComponent<SpriteRenderer>() != null) 
+      { 
+        GetComponent<SpriteRenderer>().sprite = sprite_default;
+      }
 
       if (controlsDoor)
       {
         ManagerEvents.current.DoorwayTriggerExit(id);
       }
+
+      m_canBeDeactivated = false;
+      if (canBeActivated == true) { m_canBeActivated = true; }
     }
   }
 }

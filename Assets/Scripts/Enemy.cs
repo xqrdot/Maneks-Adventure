@@ -47,46 +47,45 @@ public class Enemy : MonoBehaviour, IDamageable
 		
   // }
 
-  // private void FixedUpdate()
-  // {
-  //   if (!isIdle)
-  //   {
-  //     int directionMod = m_FacingRight ? 1 : -1;
-	// 		// print($"Is facing right? {directionMod}");
+  private void FixedUpdate()
+  {
+    if (!isIdle)
+    {
+      int directionMod = m_FacingRight ? 1 : -1;
+			// print($"Is facing right? {directionMod}");
 
-  //     Vector3 targetVelocity = new Vector2(directionMod * 2.5f * directionMod, CurrentVelocity().y);
-  //     rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
+      // Vector3 targetVelocity = new Vector2(2.5f, CurrentVelocity().y);
+      // rb.velocity = Vector3.SmoothDamp(rb.velocity, targetVelocity, ref m_Velocity, m_MovementSmoothing);
 
 
-  //     //Vector2 initCheck = new Vector2(transform.position.x + directionMod, transform.position.y);
-  //     //var groundCheck = Physics2D.Raycast(initCheck, Vector2.down, 1.5f);
-  //     //if (groundCheck.collider == false)
-  //     //	StartCoroutine(StateStay(2f));
+      //Vector2 initCheck = new Vector2(transform.position.x + directionMod, transform.position.y);
+      //var groundCheck = Physics2D.Raycast(initCheck, Vector2.down, 1.5f);
+      //if (groundCheck.collider == false)
+      //	StartCoroutine(StateStay(2f));
 
-  //     //LayerMask layerMask = LayerMask.NameToLayer("Default");
-  //     //collider.isTrigger = false;
-  //     //collider.enabled = false;
-  //     //gameObject.GetComponent<SpriteRenderer>().sortingOrder = -3;
-  //     //rb.Sleep();
-  //     // rb.isKinematic = true;
+      //LayerMask layerMask = LayerMask.NameToLayer("Default");
+      //collider.isTrigger = false;
+      //collider.enabled = false;
+      //gameObject.GetComponent<SpriteRenderer>().sortingOrder = -3;
+      //rb.Sleep();
+      // rb.isKinematic = true;
 
-  //     var direction = new Vector3(transform.position.x + directionMod * 2, transform.position.y);
-	// 		print($"Direction: {direction}");
-  //     var wallCheck = Physics2D.RaycastAll(transform.position, direction, 3);
-  //     //var wallCheck = Physics2D.Raycast(transform.position, direction, 2);
-  //     //var wallCheck = Physics2D.Raycast(transform.position, direction, 2, layerMask);
-  //     //Debug.Log($"{wallCheck.collider}, {direction}");
+      var direction = new Vector3(transform.position.x + 2, transform.position.y);
+			print($"Direction: {direction}");
+      var wallCheck = Physics2D.RaycastAll(transform.position, direction, 3);
+      //var wallCheck = Physics2D.Raycast(transform.position, direction, 2);
+      //var wallCheck = Physics2D.Raycast(transform.position, direction, 2, layerMask);
+      //Debug.Log($"{wallCheck.collider}, {direction}");
 
-  //     foreach (RaycastHit2D obj in wallCheck)
-  //     {
-  //       if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
-  //       {
-  //         print("Near a wall, Turning around");
-  //         StartCoroutine(StateStay(2f));
-  //       }
-  //     }
-  //   }
-  // }
+      foreach (RaycastHit2D obj in wallCheck)
+      {
+        if (obj.transform.gameObject.layer == LayerMask.NameToLayer("Default"))
+        {
+          StartCoroutine(StateStay(2f));
+        }
+      }
+    }
+  }
 
   void OnDrawGizmos()
   {
