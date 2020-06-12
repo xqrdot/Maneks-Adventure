@@ -204,7 +204,7 @@ public class InteractionController : MonoBehaviour
     {
       if (obj.transform.GetComponent<IDamageable>() != null && !obj.transform.CompareTag("Player"))
       {
-        obj.transform.GetComponent<IDamageable>().DealDamage((int)meleeDamage);
+        obj.transform.GetComponent<IDamageable>().DealDamage((int)meleeDamage, false);
         didHit = true;
       }
     }

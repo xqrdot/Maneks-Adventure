@@ -14,7 +14,7 @@ public class PropDamageable : MonoBehaviour, IDamageable
 		source = StaticStorage.instance.GameManager.GetComponent<AudioSource>();
 	}
 
-	public void DealDamage(int damage)
+	public void DealDamage(int damage, bool stun)
 	{
 		health -= damage;
 

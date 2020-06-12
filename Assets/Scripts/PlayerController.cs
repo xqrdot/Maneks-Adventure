@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	bool jumpRequest = false;
 	bool ascending;
 	bool running;
+	bool m_canReceiveDamage = true;
 
 	[Header("Audio")]
 	[SerializeField] AudioClip clip_hurtSmall = null;
@@ -166,6 +167,7 @@ public class PlayerController : MonoBehaviour, IDamageable
 	public void StopMomentum()
 	{
 		rb2D.velocity = Vector2.zero;
+		horizontalMove = 0;
 	}
 
 	private void CreateDust()
@@ -184,64 +186,61 @@ public class PlayerController : MonoBehaviour, IDamageable
 	/// Dealing damage
 	/// 
 
-	public void DealDamage(int damage)
-	{
-		currentHealth -= damage;
-		changeHealth?.Invoke(currentHealth);
-
-		StopMomentum();
-		rb2D.AddForce(new Vector2(-30 * (m_FacingRight == true ? 1 : -1), 8), ForceMode2D.Impulse);
-
-		animator.SetTrigger("Hit");
-		source.PlayOneShot(clip_hurtSmall);
-
-		StopCoroutine(Stun()); StartCoroutine(Stun());
-	}
-
 	public void DealDamage(int damage, bool noDirection)
 	{
-		currentHealth -= damage;
-		changeHealth?.Invoke(currentHealth);
+		if (m_canReceiveDamage)
+		{
+			currentHealth -= damage;
+			changeHealth?.Invoke(currentHealth);
 
-		StopMomentum();
-		if (!noDirection)
-			rb2D.AddForce(new Vector2(-30 * (m_FacingRight == true ? 1 : -1), 8), ForceMode2D.Impulse);
+			if (!noDirection)
+			{
+				StopMomentum();
+				rb2D.AddForce(new Vector2(-60 * (m_FacingRight == true ? 1 : -1), 8), ForceMode2D.Impulse);
+			}
+			animator.SetTrigger("Hit");
+			source.PlayOneShot(clip_hurtSmall);
 
-		animator.SetTrigger("Hit");
-		source.PlayOneShot(clip_hurtSmall);
-
-		StopCoroutine(Stun()); StartCoroutine(Stun());
+			if (noDirection)
+				StopCoroutine(Stun()); StartCoroutine(Stun());
+		}
 	}
 
-	public void DealDamage(int damage, bool noDirection, bool noStun)
-	{
-		currentHealth -= damage;
-		changeHealth?.Invoke(currentHealth);
+	// public void DealDamage(int damage, bool noDirection, bool noStun)
+	// {
+	// 	currentHealth -= damage;
+	// 	changeHealth?.Invoke(currentHealth);
 
-		StopMomentum();
-		if (!noDirection)
-			rb2D.AddForce(new Vector2(-30 * (m_FacingRight == true ? 1 : -1), 8), ForceMode2D.Impulse);
+	// 	StopMomentum();
+	// 	if (!noDirection)
+	// 		rb2D.AddForce(new Vector2(-30 * (m_FacingRight == true ? 1 : -1), 8), ForceMode2D.Impulse);
 
-		animator.SetTrigger("Hit");
-		source.PlayOneShot(clip_hurtSmall);
+	// 	animator.SetTrigger("Hit");
+	// 	source.PlayOneShot(clip_hurtSmall);
 
-		if (!noStun)
-			StopCoroutine(Stun()); StartCoroutine(Stun());
-	}
+	// 	if (!noStun)
+	// 		StopCoroutine(Stun()); StartCoroutine(Stun());
+	// }
 
 	IEnumerator Stun(float seconds)
 	{
 		managerGame.playerInput = PlayerInput.Disabled;
+		m_canReceiveDamage = false;
 		yield return new WaitForSeconds(seconds);
+
 		managerGame.playerInput = PlayerInput.Active;
+		m_canReceiveDamage = true;
 		yield return new WaitForEndOfFrame();
 	}
 
 	IEnumerator Stun()
 	{
 		managerGame.playerInput = PlayerInput.Disabled;
+		m_canReceiveDamage = false;
 		yield return new WaitForSeconds(0.5f);
+		
 		managerGame.playerInput = PlayerInput.Active;
+		m_canReceiveDamage = true;
 		yield return new WaitForEndOfFrame();
 	}
 

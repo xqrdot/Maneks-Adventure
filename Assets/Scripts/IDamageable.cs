@@ -1,4 +1,4 @@
 ﻿public interface IDamageable
 {
-	void DealDamage(int damage);
+	void DealDamage(int damage, bool stun);
 }

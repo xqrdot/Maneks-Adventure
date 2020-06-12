@@ -71,7 +71,7 @@ public class Enemy : MonoBehaviour, IDamageable
       // rb.isKinematic = true;
 
       var direction = new Vector3(transform.position.x + 2, transform.position.y);
-			print($"Direction: {direction}");
+			// print($"Direction: {direction}");
       var wallCheck = Physics2D.RaycastAll(transform.position, direction, 3);
       //var wallCheck = Physics2D.Raycast(transform.position, direction, 2);
       //var wallCheck = Physics2D.Raycast(transform.position, direction, 2, layerMask);
@@ -117,11 +117,11 @@ public class Enemy : MonoBehaviour, IDamageable
       col.velocity = new Vector2(col.velocity.x, 0);
       col.AddForce(Vector2.up * bounceForce);
 
-      DealDamage(9999);
+      DealDamage(9999, false);
     }
   }
 
-  public void DealDamage(int damage)
+  public void DealDamage(int damage, bool stun)
   {
     if (!isDead)
     {
