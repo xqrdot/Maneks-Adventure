@@ -14,5 +14,23 @@ public class ManagerGame : MonoBehaviour
 	{
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Player"), LayerMask.NameToLayer("Throwable"));
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Throwable"), LayerMask.NameToLayer("Default_CanTeleport")); 
+
+		ManagerEvents.current.onGlobalEventChange += OnGlobalEventChange;
+	}
+
+	private void OnGlobalEventChange(int id)
+	{
+		if (id == 3)
+		{
+			print("[INFO] Player's dead. Bruh.");
+			// Move player and give him Health
+			var p = StaticStorage.instance.player;
+			var p_PlayerController = p.GetComponent<PlayerController>();
+
+			p.gameObject.transform.position = StaticStorage.instance.respawnPosition.position;
+			p_PlayerController.currentHealth = p_PlayerController.maxHealth;
+			p_PlayerController.changeHealth(p_PlayerController.maxHealth);
+			
+		}
 	}
 }

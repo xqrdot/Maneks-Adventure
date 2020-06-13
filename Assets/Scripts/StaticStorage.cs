@@ -13,6 +13,7 @@ public class StaticStorage : MonoBehaviour
 	public GameObject player;
 	public GameObject gameManager;
 
+	[HideInInspector] public Transform respawnPosition = null;
 	[HideInInspector] public float gameTime = 0;
 	[HideInInspector] public float gameScore = 0;
 	[HideInInspector] public float teleportMaxCooldown;
@@ -21,6 +22,7 @@ public class StaticStorage : MonoBehaviour
 	public static StaticStorage instance;
 
 	public delegate void OnChangeGameTime(float time); public OnChangeGameTime changeGameTime;
+	public delegate void PlayerHealth_Delegate(float health); public PlayerHealth_Delegate PlayerHealth_delegate;
 
 
 	private void Awake()
@@ -34,22 +36,22 @@ public class StaticStorage : MonoBehaviour
 
 	private void Start() {
 		StartCoroutine(CountGameTime());
+
+		if (respawnPosition == null) {
+			SetRespawnPosition(player.transform);
+		}
 	}
 
-	public GameObject Player
-	{
-		get
-		{
+	public GameObject Player {
+		get {
 			if (player == null)
 				player = GameObject.FindGameObjectWithTag("Player");
 
 			return player;
 		}
 	}
-	public GameObject GameManager
-	{
-		get
-		{
+	public GameObject GameManager {
+		get {
 			if (gameManager == null)
 				gameManager = GameObject.FindGameObjectWithTag("GameManager");
 
@@ -57,17 +59,21 @@ public class StaticStorage : MonoBehaviour
 		}
 	}
 
-	IEnumerator CountGameTime()
-  {
+	public void SetRespawnPosition(Transform position)
+	{
+		respawnPosition = position;
+		print("[INFO] Respawn position set to:" + respawnPosition.position);
+	}
+
+	IEnumerator CountGameTime() 
+	{
 		var increment = 1f;
-		while (gameState != GameState.Ended)
-		{
+		while (gameState != GameState.Ended) {
 			yield return new WaitForSeconds(increment);
 			gameTime += increment;
 			
 			changeGameTime?.Invoke((int)gameTime);
 		}
-
-    yield return null;
-  }
+		yield return null;
+	}
 }

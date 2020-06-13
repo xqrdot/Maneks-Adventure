@@ -52,6 +52,7 @@ public class ManagerUI : MonoBehaviour
 
 	private void Update()
 	{
+		// Very bad way to do this but screw it
 		teleportFG.fillAmount = StaticStorage.instance.teleportCurrentCooldown / StaticStorage.instance.teleportMaxCooldown;
 	}
 
@@ -89,6 +90,7 @@ public class ManagerUI : MonoBehaviour
 
 	public void UpdateHearts(int currentHealth)
 	{
+		// what a fuck is going on
 		bool withHalf = currentHealth % 2 == 0 ? false : true;
 
 		for (int i = groupHealth.transform.childCount - 1; i > -1; i--)
@@ -100,6 +102,10 @@ public class ManagerUI : MonoBehaviour
 			else if (i >= currentHealth / 2)
 			{
 				groupHealth.transform.GetChild(i).GetComponent<Image>().sprite = heartEmpty;
+			}
+			else 
+			{
+				groupHealth.transform.GetChild(i).GetComponent<Image>().sprite = heartFull;
 			}
 		}
 	}

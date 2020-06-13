@@ -13,7 +13,9 @@ public class ManagerEvents : MonoBehaviour
 
   public event Action<int> onDoorwayTriggerEnter;
   public event Action<int> onDoorwayTriggerExit;
+  public event Action<int> onGlobalEventChange;
 
   public void DoorwayTriggerEnter(int id) { onDoorwayTriggerEnter?.Invoke(id); }
   public void DoorwayTriggerExit(int id) { onDoorwayTriggerExit?.Invoke(id); }
+  public void GlobalEvent(int id) { onGlobalEventChange?.Invoke(id); }
 }

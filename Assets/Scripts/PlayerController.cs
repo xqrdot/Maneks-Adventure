@@ -203,6 +203,11 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 			if (noDirection)
 				StopCoroutine(Stun()); StartCoroutine(Stun());
+
+			if (currentHealth <= 0)
+			{
+				ManagerEvents.current.GlobalEvent(3);
+			}
 		}
 	}
 
