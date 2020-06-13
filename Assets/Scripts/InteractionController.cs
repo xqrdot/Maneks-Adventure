@@ -38,6 +38,7 @@ public class InteractionController : MonoBehaviour
   AudioSource source; 
 
   bool canTeleport = true;
+  bool teleportAbilityActivated = false;
   bool isAiming = false;
   bool canActivateInteractable = false;
   bool interactableRequest = false;
@@ -55,16 +56,20 @@ public class InteractionController : MonoBehaviour
   {
     teleportTime = teleportChargeTime;
 
+    mainCamera = Camera.main;
     player = StaticStorage.instance.Player;
     source = StaticStorage.instance.GameManager.GetComponent<AudioSource>();
-    StaticStorage.instance.teleportMaxCooldown = teleportChargeTime;
-
     managerUI = StaticStorage.instance.GameManager.GetComponent<ManagerUI>();
-    mainCamera = Camera.main;
-    
+
+    StaticStorage.instance.teleportMaxCooldown = teleportChargeTime;
+    ManagerEvents.current.onTeleportActivate += SwitchTeleport;
 
     teleportEndpoint.SetActive(false);
-    //line.enabled = false;
+  }
+
+  void SwitchTeleport(bool value)
+  {
+    teleportAbilityActivated = value;
   }
 
   private void FixedUpdate()
@@ -130,7 +135,7 @@ public class InteractionController : MonoBehaviour
 
     /// Teleport event activation
     /// 
-    if (Input.GetKey(KeyCode.Mouse1) && canTeleport)
+    if (Input.GetKey(KeyCode.Mouse1) && canTeleport && teleportAbilityActivated)
     {
       // Show where player will teleport by enabling visuals
       teleportEndpoint.SetActive(true);

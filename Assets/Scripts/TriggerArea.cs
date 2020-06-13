@@ -9,6 +9,7 @@ public class TriggerArea : MonoBehaviour
 
   [Header("Behaviour")]
   [SerializeField] bool controlsDoor = false;
+  [SerializeField] bool controlsGame = false;
   [Space(20)]
   public bool requiresInput = true;
   public bool canBeActivated = true;
@@ -63,6 +64,11 @@ public class TriggerArea : MonoBehaviour
       if (controlsDoor)
       {
         ManagerEvents.current.DoorwayTriggerEnter(id);
+      }
+
+      if (controlsGame)
+      {
+        ManagerEvents.current.GlobalEvent(2);
       }
 
       m_canBeActivated = false;
