@@ -8,6 +8,8 @@ public class ManagerGame : MonoBehaviour
 	public PlayerState playerState;
 	public GameState gameState;
 
+	AudioSource source = null;
+
 	//public delegate PlayerInput OnChangePlayerInput(PlayerInput state); public OnChangePlayerInput changePlayerInput;
 
 	private void Start()
@@ -16,6 +18,8 @@ public class ManagerGame : MonoBehaviour
 		Physics2D.IgnoreLayerCollision(LayerMask.NameToLayer("Throwable"), LayerMask.NameToLayer("Default_CanTeleport")); 
 
 		ManagerEvents.current.onGlobalEventChange += OnGlobalEventChange;
+
+		source = StaticStorage.instance.GameManager.GetComponent<AudioSource>();
 	}
 
 	private void OnGlobalEventChange(int id)
@@ -30,7 +34,6 @@ public class ManagerGame : MonoBehaviour
 			p.gameObject.transform.position = StaticStorage.instance.respawnPosition.position;
 			p_PlayerController.currentHealth = p_PlayerController.maxHealth;
 			p_PlayerController.changeHealth(p_PlayerController.maxHealth);
-			
 		}
 	}
 }
