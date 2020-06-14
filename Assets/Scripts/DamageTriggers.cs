@@ -5,14 +5,16 @@ using UnityEngine;
 
 public class DamageTriggers : MonoBehaviour
 {
-	// Start is called before the first frame update
+	[SerializeField] private float damage = 2;
+	[SerializeField] private bool stun = false;
+
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		IDamageable damageable = collision.GetComponent<IDamageable>();
 
 		if (damageable != null)
 		{
-			damageable.DealDamage(2, false);
+			damageable.DealDamage((int)damage, stun);
 		}
 	}
 }

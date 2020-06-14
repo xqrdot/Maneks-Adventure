@@ -148,7 +148,7 @@ public class InteractionController : MonoBehaviour
 
       //RaycastHit2D hit2D = Physics2D.Raycast(playerWorldPos, mouseWorldPos, 10, layerMask);
       RaycastHit2D hit2D = Physics2D.Linecast(playerWorldPos, mouseWorldPos, layerMask);
-      Collider2D colOverlap = Physics2D.OverlapCircle(mouseWorldPos, 1, layerMask);
+      Collider2D colOverlap = Physics2D.OverlapCircle(mouseWorldPos, 0.7f, layerMask);
 
       var distance = Vector3.Distance(playerWorldPos, mouseWorldPos);
 
@@ -244,7 +244,7 @@ public class InteractionController : MonoBehaviour
         if (interactableRequest) {
           interactableRequest = false;
           canActivateInteractable = false;
-          nearbyInteractable.GetComponent<TriggerArea>().Activate();
+          nearbyInteractable.GetComponent<TriggerArea>().Activate(null);
         }
       }
     }

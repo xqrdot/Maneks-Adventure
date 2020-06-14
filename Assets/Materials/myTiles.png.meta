@@ -1442,6 +1442,9 @@ TextureImporter:
   - first:
       213: 7096378357148465450
     second: myTiles_232
+  - first:
+      213: 7010328266729704391
+    second: myTiles_233
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -6471,6 +6474,27 @@ TextureImporter:
       bones: []
       spriteID: a29ba9184866b7260800000000000000
       internalID: 7096378357148465450
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: myTiles_233
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 128
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7cbcd419a60b94160800000000000000
+      internalID: 7010328266729704391
       vertices: []
       indices: 
       edges: []
