@@ -12,7 +12,7 @@ public class DeathTriggers : MonoBehaviour
 
 		if (damageable != null)
 		{
-			damageable.DealDamage(99999);
+			damageable.DealDamage(99999, false);
 		}
 	}
 }

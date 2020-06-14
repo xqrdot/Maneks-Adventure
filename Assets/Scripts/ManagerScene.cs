@@ -19,6 +19,7 @@ public class ManagerScene : MonoBehaviour
 	private void Start()
 	{
 		gameManager = StaticStorage.instance.GameManager;
+		ManagerEvents.current.onGlobalEventChange += EndLevel;
 		currentLevel = level;
 
 		LoadLevelInitials();
@@ -27,6 +28,14 @@ public class ManagerScene : MonoBehaviour
 	private void LoadLevelInitials()
 	{
 		gameManager.GetComponent<ManagerUI>().InitializeSceneIntro(currentLevel);
+	}
+
+	private void EndLevel(int i)
+	{
+		if (i == 2)
+		{
+			// Show UI
+		}
 	}
 }
 

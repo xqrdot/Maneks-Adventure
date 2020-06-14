@@ -38,6 +38,7 @@ public class InteractionController : MonoBehaviour
   AudioSource source; 
 
   bool canTeleport = true;
+  bool teleportAbilityActivated = false;
   bool isAiming = false;
   bool canActivateInteractable = false;
   bool interactableRequest = false;
@@ -55,16 +56,20 @@ public class InteractionController : MonoBehaviour
   {
     teleportTime = teleportChargeTime;
 
+    mainCamera = Camera.main;
     player = StaticStorage.instance.Player;
     source = StaticStorage.instance.GameManager.GetComponent<AudioSource>();
-    StaticStorage.instance.teleportMaxCooldown = teleportChargeTime;
-
     managerUI = StaticStorage.instance.GameManager.GetComponent<ManagerUI>();
-    mainCamera = Camera.main;
-    
+
+    StaticStorage.instance.teleportMaxCooldown = teleportChargeTime;
+    ManagerEvents.current.onTeleportActivate += SwitchTeleport;
 
     teleportEndpoint.SetActive(false);
-    //line.enabled = false;
+  }
+
+  void SwitchTeleport(bool value)
+  {
+    teleportAbilityActivated = value;
   }
 
   private void FixedUpdate()
@@ -130,7 +135,7 @@ public class InteractionController : MonoBehaviour
 
     /// Teleport event activation
     /// 
-    if (Input.GetKey(KeyCode.Mouse1) && canTeleport)
+    if (Input.GetKey(KeyCode.Mouse1) && canTeleport && teleportAbilityActivated)
     {
       // Show where player will teleport by enabling visuals
       teleportEndpoint.SetActive(true);
@@ -192,14 +197,19 @@ public class InteractionController : MonoBehaviour
     bool didHit = false;
 
     var facingRight = player.GetComponent<PlayerController>().m_FacingRight == true ? 1 : -1;
-    var overlapArea = Physics2D.OverlapAreaAll(transform.position, new Vector2(transform.position.x + meleeRange * facingRight, transform.position.y));
+    Vector2 direction = (Camera.main.ScreenToWorldPoint(Input.mousePosition) - player.transform.position);
+    direction.Normalize();
+    // TODO: do a BOX2d overlay since that accounts for player missing a bit
+    // var overlapArea = Physics2D.OverlapAreaAll(transform.position, new Vector2(transform.position.x + meleeRange * facingRight, transform.position.y))
+    print(direction);
+    var overlapArea = Physics2D.RaycastAll(transform.position, direction, meleeRange);
 
     //if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
-    foreach (Collider2D collider2D in overlapArea)
+    foreach (RaycastHit2D obj in overlapArea)
     {
-      if (collider2D.GetComponent<IDamageable>() != null && !collider2D.CompareTag("Player"))
+      if (obj.transform.GetComponent<IDamageable>() != null && !obj.transform.CompareTag("Player"))
       {
-        collider2D.GetComponent<IDamageable>().DealDamage((int)meleeDamage);
+        obj.transform.GetComponent<IDamageable>().DealDamage((int)meleeDamage, false);
         didHit = true;
       }
     }

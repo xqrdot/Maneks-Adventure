@@ -37,7 +37,7 @@ public class Throwable : MonoBehaviour
 		//if (collision.gameObject.layer == LayerMask.NameToLayer("Enemy"))
 		if (collision.gameObject.GetComponent<IDamageable>() != null)
 		{
-			collision.gameObject.GetComponent<IDamageable>().DealDamage(damage);
+			collision.gameObject.GetComponent<IDamageable>().DealDamage(damage, false);
 			Destroy(gameObject);
 		}
 		//else if (collision.gameObject.CompareTag("Platform"))
