@@ -5,8 +5,8 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
   Vector3 initialPosition;
-  [SerializeField] int id;
-  [SerializeField] Vector2 openDirection;
+  [SerializeField] int id = 0;
+  [SerializeField] Vector2 openDirection = Vector2.zero;
   [SerializeField] float timeToOpen = 1.5f;
   [SerializeField] float timeToClose = 1.5f;
 

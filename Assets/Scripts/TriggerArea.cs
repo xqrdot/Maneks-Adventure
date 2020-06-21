@@ -74,11 +74,9 @@ public class TriggerArea : MonoBehaviour
 
             if (controlsGame)
             {
-				print("ControlsGame, yes");
 				if (collision.gameObject.CompareTag("Player") == true)
 				{
 					ManagerEvents.current.GlobalEvent(2); // End game
-					print("End game, yes");
 				}
             }
 

@@ -8,6 +8,7 @@ public class DamageTriggers : MonoBehaviour
 	[SerializeField] private float damage = 2;
 	[SerializeField] private bool stun = false;
 
+
 	private void OnTriggerEnter2D(Collider2D collision)
 	{
 		IDamageable damageable = collision.GetComponent<IDamageable>();
