@@ -18,6 +18,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 	[Range(0.5f, 1.2f)]
 	[SerializeField] public float m_DoubleJumpMultiplier = 0.8f;
 	
+	[SerializeField] private Vector2 groundCheckPoint1 = Vector2.zero; // +0.45, -1.1
+	[SerializeField] private Vector2 groundCheckPoint2 = Vector2.zero; // -0.45, -1.1
+
 
 	const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
 	private bool m_Grounded;            // Whether or not the player is grounded.
@@ -121,10 +124,16 @@ public class PlayerController : MonoBehaviour, IDamageable
 	private void FixedUpdate()
 	{
 		bool wasGrounded = m_Grounded;
+	
 		m_Grounded = false;
-		var cached_Velocity = PlayerVelocity(); // Cache velocity for this Physics step
+		bool invoke_OnLand = false;
+		var cached_Velocity = PlayerVelocity();
 
-		Collider2D[] colliders = Physics2D.OverlapCircleAll(m_GroundCheck.position, k_GroundedRadius, m_WhatIsGround);
+		Collider2D[] colliders = Physics2D.OverlapAreaAll(
+			new Vector2(transform.position.x - 0.475f, transform.position.y - 1.1f), 
+			new Vector2(transform.position.x + 0.475f, transform.position.y - 1.1f), 
+			m_WhatIsGround);
+		
 		for (int i = 0; i < colliders.Length; i++)
 		{
 			if (colliders[i].gameObject != gameObject)
@@ -132,16 +141,12 @@ public class PlayerController : MonoBehaviour, IDamageable
 				m_Grounded = true;
 				if (!wasGrounded && cached_Velocity.y <= 0)
 				{
-					//if (cached_Velocity.y <= -20f)
-					//{
-					//	DealDamage(cached_Velocity.y <= -35f ? 4 : 2, true);
-					//}
-					OnLandEvent.Invoke();
+					invoke_OnLand = true;
 				}
 			}
 		}
 
-		//Debug.Log($"Velocity: {cached_Velocity.y}\n{wasGrounded}");
+		if (invoke_OnLand) { OnLandEvent.Invoke(); }
 
 		Move(horizontalMove * Time.fixedDeltaTime, jumpRequest);
 		jumpRequest = false;
@@ -177,7 +182,9 @@ public class PlayerController : MonoBehaviour, IDamageable
 
 	private void OnDrawGizmosSelected()
 	{
-		Gizmos.DrawWireSphere(m_GroundCheck.position, k_GroundedRadius);
+		Gizmos.DrawLine(
+			new Vector2(transform.position.x - 0.475f, transform.position.y - 1.1f), 
+			new Vector2(transform.position.x + 0.475f, transform.position.y - 1.1f));
 	}
 	
 

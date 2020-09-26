@@ -92,7 +92,18 @@ public class ManagerUI : MonoBehaviour
 
     void UpdateGameTime(float time)
     {
-        gameTime.SetText(time.ToString());
+        string _time = "";
+        if (time < 60) 
+            _time = time.ToString();
+        else 
+        {
+            if (time % 60 < 10) 
+                _time = $"{(int)time / 60}:0{time % 60}";
+            else
+                _time = $"{(int)time / 60}:{time % 60}";
+        }
+
+        gameTime.SetText(_time);
     }
 
     void EndLevel(int i)
